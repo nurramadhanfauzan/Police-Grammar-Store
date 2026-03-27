@@ -3,9 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Police Grammar Store</title>
 </head>
 <body>
-    
+    <label for="title">Tambah Buku</label>
+    <input type="text" id="title" placeholder="Judul">
+    <input type="number" id="price" placeholder="Harga">
+    <button onclick="createData()">Add</button>
+
+    <table border="1" style="margin-top: 30px;">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Judul</th>
+                <th>Harga</th>
+            </tr>
+        </thead>
+        <tbody id="container-data">
+
+        </tbody>
+        
+    </table>
+
+    <script>
+        // database buku
+        let database = [
+        {id: 1, title: "Grammar Patrol", price: 40_000},
+        {id: 2, title: "Tense Handbook", price: 60_000},
+        {id: 3, title: "10 Dosa Besar Soeharno", price: 1_000_000},
+        ];
+
+        // menyimpan data supaya tidak hilang saat di refresh webnya
+        let datalocal = localStorage.getItem("dataBuku")
+        
+        if (datalocal !== null) {
+            database = JSON.parse(datalocal)
+        }
+        readData()
+
+        // fitur create (untuk nambah buku)
+        function createData() {
+            // ambil value dari input
+            let inputTitle = document.getElementById("title").value
+            let inputPrice = document.getElementById("price").value
+            
+            // kasih alert kalau value nya kosong
+            if (
+                inputTitle.trim() === "" || 
+                inputPrice === "" ||
+                isNaN(inputPrice) ||
+                Number(inputPrice) <= 0
+                ) {
+                alert("Judul dan harga nya diisi dulu ya manis~")
+                return
+            }
+
+            // default id 1
+            let id = 1
+            // untuk mendinamiskan id supaya unique
+            if (database.length !== 0) {
+                // re-assign id
+                id = database[database.length - 1].id + 1
+            }
+
+            // bikin objek baru yang isinya id dan judul
+            let newObj = {
+                id: id, // supaya tidak bentrok id saat delete
+                title: inputTitle.trim(), // supaya tidak diisi spasi saja
+                price: Number(inputPrice), // ubah ke number
+            }
+            // untuk disimpan ke database
+            database.push(newObj)
+
+            // untuk menyimpan data agar tidak hilang saat web di refresh
+            saveToLocalStorage()
+
+            // refresh table
+            readData()
+
+            // untuk mengosongkan input (biar enak UX)
+            document.getElementById("title").value = ""
+            document.getElementById("price").value = ""
+        }
+
+        // read data
+        function readData(){
+            let template = ""
+
+            // loop database
+            for (let i = 0; i < database.length; i++) {
+                let perObj = database[i];
+                
+                // concat
+                template += `<tr>
+                            <td>${perObj.id}</td>
+                            <td>${perObj.title}</td>
+                            <td>Rp ${perObj.price}</td>
+                            </tr>`
+            }
+
+            let tbody = document.getElementById("container-data")
+
+            tbody.innerHTML = template
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem("dataBuku", JSON.stringify(database))
+        }
+        
+    </script>
+
 </body>
 </html>
