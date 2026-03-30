@@ -6,6 +6,10 @@
     <title>Police Grammar Store</title>
 </head>
 <body>
+    <a href="cart.html">
+        <button>Keranjang</button>
+    </a>
+        Cart (<span id="cart-count"></span>)
     <label for="title">Tambah Buku</label>
     <input type="text" id="title" placeholder="Judul">
     <input type="number" id="price" placeholder="Harga">
@@ -27,13 +31,26 @@
     </table>
 
     <script>
+        // untuk updateData
         let selectedId = null
+
         // database buku
         let database = [
-        {id: 1, title: "Grammar Patrol", price: 40_000},
-        {id: 2, title: "Tense Handbook", price: 60_000},
-        {id: 3, title: "10 Dosa Besar Soeharno", price: 1_000_000},
+            {id: 1, title: "Grammar Patrol", price: 40000},
+            {id: 2, title: "Tense Handbook", price: 60000},
+            {id: 3, title: "10 Dosa Besar Soeharno", price: 1000000},
+            {id: 4, title: "English Conversation Daily", price: 75000},
+            {id: 5, title: "Basic Vocabulary Builder", price: 50000},
+            {id: 6, title: "Advanced Grammar Mastery", price: 120000},
+            {id: 7, title: "TOEFL Preparation Guide", price: 95000},
+            {id: 8, title: "IELTS Speaking Secrets", price: 110000},
+            {id: 9, title: "Business English 101", price: 85000},
+            {id: 10, title: "English Slang & Idioms", price: 65000}
         ];
+
+        // untuk fitur cart
+        let cart = JSON.parse(localStorage.getItem("cart")) || []
+        
 
         // menyimpan data supaya tidak hilang saat di refresh webnya
         let datalocal = localStorage.getItem("dataBuku")
@@ -43,82 +60,76 @@
         }
         readData()
 
-        // fitur create (untuk nambah buku)
+    // fitur create (untuk nambah buku)
         function createData() {
-    // ambil value dari input
-    let inputTitle = document.getElementById("title").value
-    let inputPrice = document.getElementById("price").value
-    
-    // kasih alert kalau value nya kosong
-    if (
-        inputTitle.trim() === "" || 
-        inputPrice === "" ||
-        isNaN(inputPrice) ||
-        Number(inputPrice) <= 0
-    ) {
-        alert("Judul dan harga nya diisi dulu ya manis~")
-        return
+            // ambil value dari input
+            let inputTitle = document.getElementById("title").value
+            let inputPrice = document.getElementById("price").value
+            
+            // kasih alert kalau value nya kosong
+            if (
+                inputTitle.trim() === "" || 
+                inputPrice === "" ||
+                isNaN(inputPrice) ||
+                Number(inputPrice) <= 0
+            ) {
+                alert("Judul dan harga nya diisi dulu ya manis~")
+                return
+            }
+
+            if (selectedId !== null) {
+                for (let i = 0; i < database.length; i++) {
+                    if (database[i].id === selectedId) {
+                        database[i].title = inputTitle.trim()
+                        database[i].price = Number(inputPrice)
+                    }   
+                }
+                // reset mode
+                selectedId = null
+            }
+            else {
+                // default id 1
+                let id = 1
+
+                // untuk mendinamiskan id supaya unique
+                if (database.length !== 0) {
+                    // re-assign id
+                    id = database[database.length - 1].id + 1
+                }
+
+                // bikin objek baru yang isinya id dan judul
+                let newObj = {
+                    id: id, // supaya tidak bentrok id saat delete
+                    title: inputTitle.trim(), // supaya tidak diisi spasi saja
+                    price: Number(inputPrice), // ubah ke number
+                }
+            // untuk disimpan ke database
+            database.push(newObj)
+        }
+        // untuk menyimpan data agar tidak hilang saat web di refresh
+        saveToLocalStorage()
+
+        // untuk mengosongkan input (biar enak UX)
+        document.getElementById("title").value = ""
+        document.getElementById("price").value = ""
     }
 
-    if (selectedId !== null) {
-        for (let i = 0; i < database.length; i++) {
-            if (database[i].id === selectedId) {
-                database[i].title = inputTitle.trim()
-                database[i].price = Number(inputPrice)
-            }   
-        }
-        // reset mode
-        selectedId = null
-    }
-    else {
-        // default id 1
-        let id = 1
-
-        // untuk mendinamiskan id supaya unique
-        if (database.length !== 0) {
-            // re-assign id
-            id = database[database.length - 1].id + 1
-        }
-
-        // bikin objek baru yang isinya id dan judul
-        let newObj = {
-            id: id, // supaya tidak bentrok id saat delete
-            title: inputTitle.trim(), // supaya tidak diisi spasi saja
-            price: Number(inputPrice), // ubah ke number
-        }
-
-        // untuk disimpan ke database
-        database.push(newObj)
-    }
-
-    // untuk menyimpan data agar tidak hilang saat web di refresh
-    saveToLocalStorage()
-
-    // refresh table
-    readData()
-
-    // untuk mengosongkan input (biar enak UX)
-    document.getElementById("title").value = ""
-    document.getElementById("price").value = ""
-}
-
-        // read data
+            // read data
         function readData(){
             let template = ""
 
             // loop database
             for (let i = 0; i < database.length; i++) {
                 let perObj = database[i];
-                
+                    
                 // concat
                 template += `<tr>
-                            <td>${perObj.id}</td>
+                        <td>${perObj.id}</td>
                             <td>${perObj.title}</td>
                             <td>Rp ${perObj.price}</td>
                             <td>
+                                <button onclick="addToCart(${perObj.id})">+Cart</button>
                                 <button onclick="updateData(${perObj.id})">Edit</button>
-                            </td>
-                            <td>
                                 <button onclick="deleteData(${perObj.id})">Hapus</button>
                             </td>
                             </tr>`
@@ -135,7 +146,6 @@
             }
             
             let newDatabase = []
-
             for (let i = 0; i < database.length; i++) {
                 if (database[i].id !== id) {
                     newDatabase.push(database[i])
@@ -148,17 +158,33 @@
 
         function updateData(id) {
             selectedId = id
-
+            
             let data = database.find(item => item.id === id)
 
             document.getElementById("title").value = data.title
             document.getElementById("price").value = data.price
         }
 
+        function addToCart(id) {
+            // untuk cari data berdasarkan id
+            let item = database.find(buku => buku.id === id)
+
+            // dimasukin ke cart
+            cart.push(item)
+
+            localStorage.setItem("cart", JSON.stringify(cart))
+
+            document.getElementById("cart-count").innerText = cart.length
+        }
+
         function saveToLocalStorage() {
             localStorage.setItem("dataBuku", JSON.stringify(database))
         }
+
+        document.getElementById("cart-count").innerText = cart.length
         
+        // refresh table
+        readData()
     </script>
 
 </body>

@@ -3,9 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cart</title>
+    <a href="index.html">Kembali</a>
 </head>
 <body>
-    
+    <div id="empty-state" style="display: none;">
+        <p>Keranjang masih kosong nih, yuk tambahin dulu di menu</p>
+        <a href="index.html">
+            <button>Kembali ke Menu</button>
+        </a> 
+    </div>
+
+    <table border="1" id="cart-table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Judul</th>
+                <th>Harga</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="cart-container"></tbody>
+    </table>
+
+    <h3 id="total"></h3>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem("cart")) || []
+
+        function readCart() {
+            let template = ""
+
+            if (cart.length === 0) {
+                document.getElementById("empty-state").style.display = "block"
+                document.getElementById("cart-table").style.display = "none"
+                document.getElementById("cart-container").innerHTML = ""
+                return
+            }
+            else {
+                document.getElementById("empty-state").style.display = "none"
+                document.getElementById("cart-table").style.display = "table"
+            }
+            for (let i = 0; i < cart.length; i++) {
+                let item = cart[i]
+                
+                template += `<tr>
+                            <td>${i+1}</td>
+                            <td>${item.title}</td>
+                            <td>${item.price}</td>
+                            <td>
+                                <button onclick="deleteCart(${i})">Hapus</button>
+                            </td>
+                            </tr>`
+            }
+            document.getElementById("cart-container").innerHTML = template
+        }
+
+        function totalHarga() {
+            if (cart.length === 0) {
+                document.getElementById("total").innerText = ""
+                return
+            }
+
+            let total = 0
+
+            for (let i = 0; i < cart.length; i++) {
+                total += cart[i].price
+            }
+            document.getElementById("total").innerText = "Rp " + total
+        }
+
+        readCart()
+        totalHarga()
+
+        function deleteCart(index) {
+            if (!confirm("kepencet atau emang mau dihapus?")) {
+                return
+            }
+            // untuk hapus 1 item berdasarkan cartItem
+            cart.splice(index, 1)
+
+            // update ke localStorage
+            localStorage.setItem("cart", JSON.stringify(cart))
+
+            // render ulang
+            readCart()
+            totalHarga()
+        }
+    </script>
 </body>
 </html>
