@@ -4,17 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart</title>
-    <a href="index.html">Kembali</a>
 </head>
 <body>
-    <div id="empty-state" style="display: none;">
-        <p>Keranjang masih kosong nih, yuk tambahin dulu di menu</p>
-        <a href="index.html">
-            <button>Kembali ke Menu</button>
-        </a> 
-    </div>
+    <a href="index.html">Kembali</a>
 
-    <table border="1" id="cart-table">
+    <table id="cart-table">
         <thead>
             <tr>
                 <th>No</th>
@@ -28,22 +22,14 @@
 
     <h3 id="total"></h3>
 
+    <button onclick="checkout()">Checkout</button>
+
     <script>
         let cart = JSON.parse(localStorage.getItem("cart")) || []
 
         function readCart() {
             let template = ""
 
-            if (cart.length === 0) {
-                document.getElementById("empty-state").style.display = "block"
-                document.getElementById("cart-table").style.display = "none"
-                document.getElementById("cart-container").innerHTML = ""
-                return
-            }
-            else {
-                document.getElementById("empty-state").style.display = "none"
-                document.getElementById("cart-table").style.display = "table"
-            }
             for (let i = 0; i < cart.length; i++) {
                 let item = cart[i]
                 
@@ -75,6 +61,22 @@
 
         readCart()
         totalHarga()
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Keranjang kosong, tidak bisa checkout")
+                return
+            }
+            let history = JSON.parse(localStorage.getItem("history")) || []
+            history.push({ date: new Date().toISOString(), items: [...cart] })
+            localStorage.setItem("history", JSON.stringify(history))
+            cart = []
+            localStorage.setItem("cart", JSON.stringify(cart))
+            readCart()
+            totalHarga()
+            alert("Checkout berhasil! Riwayat tersimpan.")
+            window.location.href = "riwayat.html"
+        }
 
         function deleteCart(index) {
             if (!confirm("kepencet atau emang mau dihapus?")) {
