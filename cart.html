@@ -38,7 +38,7 @@
                             <td>${item.title}</td>
                             <td>${item.price}</td>
                             <td>
-                                <button onclick="deleteCart(${i})">Hapus</button>
+                                <button onclick="deleteCart(${i})">Gak Jadi</button>
                             </td>
                             </tr>`
             }
@@ -64,7 +64,7 @@
 
         function checkout() {
             if (cart.length === 0) {
-                alert("Keranjang kosong, tidak bisa checkout")
+                alert("belanja dulu mas/mbak, masih kosong tuh cartnya")
                 return
             }
             let history = JSON.parse(localStorage.getItem("history")) || []
@@ -74,12 +74,12 @@
             localStorage.setItem("cart", JSON.stringify(cart))
             readCart()
             totalHarga()
-            alert("Checkout berhasil! Riwayat tersimpan.")
+            alert("Checkout sukses.")
             window.location.href = "riwayat.html"
         }
 
         function deleteCart(index) {
-            if (!confirm("kepencet atau emang mau dihapus?")) {
+            if (!confirm("beneran gak jadi beli ini?")) {
                 return
             }
             // untuk hapus 1 item berdasarkan cartItem

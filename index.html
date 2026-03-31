@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Police Grammar Store</title>
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            display: inline-block;
+            width: 200px;
+            vertical-align: top;
+        }
+        .card h3 {
+            margin: 0 0 10px 0;
+        }
+        .card p {
+            margin: 0 0 10px 0;
+        }
+        .card button {
+            margin-right: 5px;
+        }
+    </style>
 </head>
 <body>
     <a href="cart.html">
@@ -15,20 +34,7 @@
     <input type="number" id="price" placeholder="Harga">
     <button onclick="createData()">Add</button>
 
-    <table style="margin-top: 30px;">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Judul</th>
-                <th>Harga</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="container-data">
-
-        </tbody>
-        
-    </table>
+    <div id="container-data"></div>
 
     <script>
         // untuk updateData
@@ -75,6 +81,7 @@
                 alert("Judul dan harga nya diisi dulu ya manis~")
                 return
             }
+            
 
             if (selectedId !== null) {
                 for (let i = 0; i < database.length; i++) {
@@ -107,13 +114,14 @@
         }
         // untuk menyimpan data agar tidak hilang saat web di refresh
         saveToLocalStorage()
+        readData()
 
         // untuk mengosongkan input (biar enak UX)
         document.getElementById("title").value = ""
         document.getElementById("price").value = ""
     }
 
-            // read data
+        // read data
         function readData(){
             let template = ""
 
@@ -122,21 +130,18 @@
                 let perObj = database[i];
                     
                 // concat
-                template += `<tr>
-                        <td>${perObj.id}</td>
-                            <td>${perObj.title}</td>
-                            <td>Rp ${perObj.price}</td>
-                            <td>
-                                <button onclick="addToCart(${perObj.id})">+Cart</button>
-                                <button onclick="updateData(${perObj.id})">Edit</button>
-                                <button onclick="deleteData(${perObj.id})">Hapus</button>
-                            </td>
-                            </tr>`
+                template += `<div class="card">
+                        <h3>${perObj.title}</h3>
+                        <p>Rp ${perObj.price}</p>
+                        <button onclick="addToCart(${perObj.id})">+Cart</button>
+                        <button onclick="updateData(${perObj.id})">Edit</button>
+                        <button onclick="deleteData(${perObj.id})">Hapus</button>
+                        </div>`
             }
 
-            let tbody = document.getElementById("container-data")
+            let container = document.getElementById("container-data")
 
-            tbody.innerHTML = template
+            container.innerHTML = template
         }
 
         function deleteData(id) {
