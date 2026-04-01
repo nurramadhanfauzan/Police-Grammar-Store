@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart</title>
     <link rel="stylesheet" href="cart.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <a href="index.html">Menu</a>
-    <a href="riwayat.html">Riwayat</a>
+    <h1>POLICE GRAMMAR STORE</h1>
+
+    <nav>
+        <a href="index.html">Menu</a>
+        <a href="riwayat.html">Riwayat</a>
+    </nav>
 
     <table id="cart-table">
         <thead>
@@ -20,9 +25,17 @@
             </tr>
         </thead>
         <tbody id="cart-container"></tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <th></th>
+                <th></th>
+                <th id="total"></th>
+            </tr>
+        </tfoot>
     </table>
 
-    <h3 id="total"></h3>
+    
 
     <button onclick="checkout()">Checkout</button>
 
