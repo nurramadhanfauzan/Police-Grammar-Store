@@ -1,0 +1,121 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+/* --- Header / Cart --- */
+a {
+    text-decoration: none;
+}
+
+#cart-count {
+    background-color: #ff3d00;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 14px;
+    vertical-align: text-bottom;
+    font-weight: bold;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+/* --- Form Input --- */
+label {
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+input[type="text"], input[type="number"] {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+    width: 180px;
+}
+
+/* --- Container Grid --- */
+#container-data {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* --- Card Styling --- */
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.card h3 {
+    font-size: 18px;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+.card p {
+    font-size: 16px;
+    color: #555;
+    margin: 0 0 15px 0;
+    text-align: center;
+}
+
+/* --- Buttons inside card --- */
+.card button {
+    padding: 6px 10px;
+    margin: 3px;
+    font-size: 14px;
+}
+
+.card button:first-of-type {
+    background-color: #ff9800;
+    color: white;
+}
+
+.card button:nth-of-type(2) {
+    background-color: #2196f3;
+    color: white;
+}
+
+.card button:last-of-type {
+    background-color: #f44336;
+    color: white;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    #container-data {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
