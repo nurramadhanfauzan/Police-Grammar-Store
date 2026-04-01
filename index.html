@@ -5,36 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Police Grammar Store</title>
     <link rel="stylesheet" href="index.css">
-    <style>
-        .card {
-            border: 1px solid #ccc;
-            margin: 10px;
-            padding: 10px;
-            display: inline-block;
-            width: 200px;
-            vertical-align: top;
-        }
-        .card h3 {
-            margin: 0 0 10px 0;
-        }
-        .card p {
-            margin: 0 0 10px 0;
-        }
-        .card button {
-            margin-right: 5px;
-        }
-    </style>
-</head>
-<body>
-    <a href="cart.html">
-        <button>Keranjang</button>
-    </a>
-        Cart (<span id="cart-count"></span>)
-    <label for="title">Tambah Buku</label>
-    <input type="text" id="title" placeholder="Judul">
-    <input type="number" id="price" placeholder="Harga">
-    <button onclick="createData()">Add</button>
 
+</head>
+
+<body>
+    <h1>POLICE GRAMMAR</h1>
+    <nav>
+            <a href="cart.html"><button>Keranjang</button></a>
+                Cart (<span id="cart-count"></span>)
+            <label for="title">Tambah Buku</label>
+            <input type="text" id="title" placeholder="Judul">
+            <input type="number" id="price" placeholder="Harga">
+            <button onclick="createData()">Add</button>
+        
+    </nav>
     <div id="container-data"></div>
 
     <script>
