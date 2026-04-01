@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat</title>
+    <link rel="stylesheet" href="riwayat.css">
 </head>
 <body>
-    <a href="index.html">Kembali ke Menu</a>
+    <a href="index.html">Menu</a>
+    <a href="cart.html">Keranjang</a>
     <h2>Riwayat Pembelian</h2>
     <div id="history-container"></div>
 
@@ -22,12 +24,16 @@
             for (let i = 0; i < history.length; i++) {
                 let entry = history[i]
                 let total = entry.items.reduce((sum, item) => sum + item.price, 0)
-                let itemsList = entry.items.map(item => `${item.title} (Rp ${item.price})`).join(", ")
-                template += `<div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
-                    <p>Tanggal: ${new Date(entry.date).toLocaleString()}</p>
-                    <p>Item: ${itemsList}</p>
-                    <p>Total: Rp ${total}</p>
-                </div>`
+            let itemsList = "<ul class='items-list'>" + 
+                entry.items.map(item => `<li>${item.title} (Rp ${item.price.toLocaleString("id-ID")})</li>`).join("") + 
+                "</ul>"
+            
+            template += `<div class="history-entry">
+                <p>Tanggal: ${new Date(entry.date).toLocaleString()}</p>
+                <p>Item:</p>
+                ${itemsList}
+                <p class="total">Total: Rp ${total.toLocaleString("id-ID")}</p>
+            </div>`
             }
             document.getElementById("history-container").innerHTML = template
         }
