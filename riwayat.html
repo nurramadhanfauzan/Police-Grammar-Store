@@ -12,27 +12,37 @@
 
     <nav>
         <a href="index.html">Menu</a>
-        <a href="riwayat.html">Riwayat</a>
+        <a href="cart.html">Cart</a>
     </nav>
     <h2>Riwayat Pembelian</h2>
     <div id="history-container"></div>
 
     <script>
+
+        // variabel untuk nampung data history
         let history = JSON.parse(localStorage.getItem("history")) || []
 
+        // untuk nampilin data history ke halaman
         function displayHistory() {
             if (history.length === 0) {
                 document.getElementById("history-container").innerHTML = "<p>Belum ada riwayat pembelian.</p>"
                 return
             }
+
+            // buat template untuk nampilin data history
             let template = ""
+
+            // loop untuk nampilin setiap entry history
             for (let i = 0; i < history.length; i++) {
                 let entry = history[i]
                 let total = entry.items.reduce((sum, item) => sum + item.price, 0)
+
+            // buat list item yang dibeli
             let itemsList = "<ul class='items-list'>" + 
                 entry.items.map(item => `<li>${item.title} (Rp ${item.price.toLocaleString("id-ID")})</li>`).join("") + 
                 "</ul>"
             
+            // buat template untuk setiap entry history
             template += `<div class="history-entry">
                 <p>Tanggal: ${new Date(entry.date).toLocaleString()}</p>
                 <p>Item:</p>
@@ -40,9 +50,12 @@
                 <p class="total">Total: Rp ${total.toLocaleString("id-ID")}</p>
             </div>`
             }
+
+            // tampilkan template ke halaman
             document.getElementById("history-container").innerHTML = template
         }
 
+        // panggil fungsi untuk nampilin history saat halaman pertama kali dibuka
         displayHistory()
     </script>
 </body>

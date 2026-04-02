@@ -22,10 +22,11 @@
             <button onclick="createData()">Add</button>
         
     </nav>
+
     <div id="container-data"></div>
 
     <script>
-        // untuk updateData
+        // variabel untuk menampung id yang mau di update
         let selectedId = null
 
         // database buku
@@ -42,24 +43,26 @@
             {id: 10, title: "English Slang & Idioms", price: 65000}
         ];
 
-        // untuk fitur cart
+        // variabel untuk nampung data cart
         let cart = JSON.parse(localStorage.getItem("cart")) || []
         
 
-        // menyimpan data supaya tidak hilang saat di refresh webnya
+        // untuk menyimpan data buku ke local storage
         let datalocal = localStorage.getItem("dataBuku")
         
+        // kalau datanya ada di local storage, maka data yang dipake adalah data dari local storage
         if (datalocal !== null) {
             database = JSON.parse(datalocal)
         }
 
-    // fitur create (untuk nambah buku)
+        // create data
         function createData() {
+
             // ambil value dari input
             let inputTitle = document.getElementById("title").value
             let inputPrice = document.getElementById("price").value
             
-            // kasih alert kalau value nya kosong
+            // validasi input
             if (
                 inputTitle.trim() === "" || 
                 inputPrice === "" ||
@@ -70,7 +73,7 @@
                 return
             }
             
-
+            // kalau selectedId tidak null, berarti kita sedang dalam mode update
             if (selectedId !== null) {
                 for (let i = 0; i < database.length; i++) {
                     if (database[i].id === selectedId) {
@@ -78,16 +81,19 @@
                         database[i].price = Number(inputPrice)
                     }   
                 }
-                // reset mode
+
+                // setelah update, kita set selectedId kembali ke null supaya tidak bentrok dengan create data
                 selectedId = null
             }
             else {
+
                 // default id 1
                 let id = 1
 
-                // untuk mendinamiskan id supaya unique
+                // kalau database tidak kosong, id nya itu id terakhir + 1 supaya id unique
                 if (database.length !== 0) {
-                    // re-assign id
+
+                    // ambil id terakhir + 1
                     id = database[database.length - 1].id + 1
                 }
 
@@ -113,11 +119,19 @@
         function readData(){
             let template = ""
 
-            // loop database
+            // kalau database nya kosong, tampilkan pesan "data buku masih kosong"
+            if (database.length === 0) {
+                document.getElementById("container-data").innerHTML = `<div class="card" style="text-align: center; padding: 20px;">
+                        <p style="font-size: 30px; color: black; margin: 0; font-weight: bold;">Tidak ada buku yang tersedia.</p>
+                        </div>`
+                return
+            }
+
+            // looping untuk buat template card
             for (let i = 0; i < database.length; i++) {
                 let perObj = database[i];
                     
-                // concat
+                // buat template card untuk setiap data buku, tombol edit dan delete nya dikasih id supaya tau data mana yang mau di edit atau di delete
                 template += `<div class="card">
                         <h3>${perObj.title}</h3>
                         <p>Rp ${perObj.price}</p>
@@ -127,52 +141,73 @@
                         </div>`
             }
 
+            // masukin template ke container
             let container = document.getElementById("container-data")
-
             container.innerHTML = template
         }
 
+        // delete data
         function deleteData(id) {
+
+            // konfirmasi sebelum delete
             if (!confirm("eh serius mau dihapus?")) {
                 return
             }
             
+            // buat array baru
             let newDatabase = []
+
+            // looping database
             for (let i = 0; i < database.length; i++) {
                 if (database[i].id !== id) {
                     newDatabase.push(database[i])
                 }
             }
+
+            // tampung array baru ke database
             database = newDatabase
+            // simpan ke local storage
             saveToLocalStorage()
+            // refresh table
             readData()
         }
 
+        // update data
         function updateData(id) {
+            
+            // set selectedId ke id yang mau di update
             selectedId = id
             
+            // cari data yang mau di update berdasarkan id
             let data = database.find(item => item.id === id)
 
+            // masukin data yang mau di update ke input
             document.getElementById("title").value = data.title
             document.getElementById("price").value = data.price
         }
 
+        // add to cart
         function addToCart(id) {
+
             // untuk cari data berdasarkan id
             let item = database.find(buku => buku.id === id)
 
             // dimasukin ke cart
             cart.push(item)
 
+            // simpan ke local storage
             localStorage.setItem("cart", JSON.stringify(cart))
 
+            // update jumlah cart di navbar
             document.getElementById("cart-count").innerText = cart.length
         }
 
+        // untuk menyimpan data ke local storage
         function saveToLocalStorage() {
             localStorage.setItem("dataBuku", JSON.stringify(database))
         }
 
+        // untuk nampilin jumlah cart di navbar
         document.getElementById("cart-count").innerText = cart.length
         
         // refresh table

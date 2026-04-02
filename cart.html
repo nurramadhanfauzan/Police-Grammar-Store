@@ -35,32 +35,43 @@
         </tfoot>
     </table>
 
-    
-
     <button onclick="checkout()">Checkout</button>
 
     <script>
+        // variabel untuk nampung data cart
         let cart = JSON.parse(localStorage.getItem("cart")) || []
 
+        // untuk nampilin data cart ke tabel
         function readCart() {
             let template = ""
 
-            for (let i = 0; i < cart.length; i++) {
-                let item = cart[i]
-                
-                template += `<tr>
-                            <td>${i+1}</td>
-                            <td>${item.title}</td>
-                            <td>${item.price}</td>
-                            <td>
-                                <button onclick="deleteCart(${i})">Gak Jadi</button>
-                            </td>
+            // kalau cart masih kosong, tampilkan pesan
+            if (cart.length === 0) {
+                template = `<tr>
+                            <td colspan="4" style="text-align: center; font-size: 18px; color: #333;">Keranjang masih kosong</td>
                             </tr>`
+            } else {
+                for (let i = 0; i < cart.length; i++) {
+                    let item = cart[i]
+                    
+                    template += `<tr>
+                                <td>${i+1}</td>
+                                <td>${item.title}</td>
+                                <td>${item.price}</td>
+                                <td>
+                                    <button onclick="deleteCart(${i})">Gak Jadi</button>
+                                </td>
+                                </tr>`
+                }
             }
+            //  tampilkan template ke tabel
             document.getElementById("cart-container").innerHTML = template
         }
 
+        // untuk hitung total harga
         function totalHarga() {
+
+            // kalau cart masih kosong, total harga 0
             if (cart.length === 0) {
                 document.getElementById("total").innerText = ""
                 return
@@ -68,31 +79,47 @@
 
             let total = 0
 
+            // looping untuk hitung total harga
             for (let i = 0; i < cart.length; i++) {
                 total += cart[i].price
             }
+
+            // tampilkan total harga ke tabel
             document.getElementById("total").innerText = "Rp " + total
         }
 
+        // panggil fungsi untuk nampilin cart dan total harga saat halaman pertama kali dibuka
         readCart()
         totalHarga()
 
+        // checkout
         function checkout() {
+
+            // kalau cart masih kosong, tampilkan alert
             if (cart.length === 0) {
                 alert("belanja dulu mas/mbak, masih kosong tuh cartnya")
                 return
             }
+
+            // simpan data pembelian ke local storage dengan key "history"
             let history = JSON.parse(localStorage.getItem("history")) || []
+
+            // push data pembelian ke history, data pembelian berupa object dengan properti date (tanggal pembelian) dan items (array of item yang dibeli)
             history.push({ date: new Date().toISOString(), items: [...cart] })
             localStorage.setItem("history", JSON.stringify(history))
             cart = []
             localStorage.setItem("cart", JSON.stringify(cart))
+
             readCart()
             totalHarga()
+
             alert("Checkout sukses.")
+
+            // setelah checkout, langsung arahkan ke halaman riwayat
             window.location.href = "riwayat.html"
         }
 
+        // hapus item dari cart
         function deleteCart(index) {
             if (!confirm("beneran gak jadi beli ini?")) {
                 return

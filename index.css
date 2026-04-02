@@ -170,8 +170,8 @@ nav button:hover {
 /* */
 
 .card button:hover {
-    transform: scale(1.05);     /* */
-    opacity: 0.9;       /* */
+    transform: scale(1.01);
+    opacity: 0.9;
 }
 /* */
 
