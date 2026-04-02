@@ -1,189 +1,212 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    margin: 0;      /*hilangkan jarak luar */
+    padding: 0;     /*hilangkan jarak dalam */
+    box-sizing: border-box;     /*ukuran elemen jadi lebih mudah diatur */                                          
+    font-family: 'Poppins', sans-serif;     /*semua teks pakai font Poppins */                         
 }
 
 html {
-    height: 100%;
+    height: 100%;       /*Supaya tinggi halaman full */
 }
 
 body {
-    min-height: 100vh;
-    background: url('main-bg.jpg') no-repeat center center fixed;
-    background-size: cover;
-    position: relative;
-    color: #333;
-    padding: 0 20px 20px 20px;
+    min-height: 100vh;      /*tinggi minimal 1 layar penuh */
+    background: url('main-bg.jpg') no-repeat center center fixed;       /*pakai gambar-center center → posisi tengah-fixed → background tidak ikut scroll */                                  
+    background-size: cover;     /*gambar memenuhi layar */
+    position: relative;     /* */
+    color: #333;        /* */
+    padding: 0 20px 20px 20px;      /*jarak isi ke tepi */
 }
 
 /* Optional overlay for readability */
 body::before {
-    content: "";
-    position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+    content: "";        /* */                    
+    position: fixed;        /* */
+    top:0;      /* */
+    left:0;     /* */     
+    width:100%;     /* */
+    height:100%;    /* */
     background: rgba(255,255,255,0.25); /* semi-transparent overlay */
-    z-index: -1;
-}
+    z-index: -1;        /* */
+}  
+/* Ini membuat layer transparan di atas background:
+
+Warna putih transparan (0.25)
+Tujuannya: biar teks lebih terbaca
+::before → pseudo-element (elemen tambahan)*/
+
 
 /* ------------------------- Header ------------------------- */
 h1 {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 60px;
-    line-height: 60px;
-    text-align: center;
-    font-size: 50px;
-    font-weight: 700;
-    color: #fff;
-    background: linear-gradient(90deg, #ff0000 0%, #0000ff 100%);
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    position: sticky;       /* */
+    top: 0;     /* */
+    width: 100%;        /* */
+    height: 60px;       /* */
+    line-height: 60px;      /* */
+    text-align: center;     /* */
+    font-size: 50px;        /* */
+    font-weight: 700;       /* */
+    color: #fff;        /* */
+    background: linear-gradient(90deg, #ff0000 0%, #0000ff 100%);       /* */
+    z-index: 1000;      /* */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);      /* */
 }
+/* Header akan “nempel” di atas saat scroll*/
 
 /* ------------------------- Navbar / Form ------------------------- */
 nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    background-color: #ff9800;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+    display: flex;      /* */
+    align-items: center;        /* */
+    justify-content: center;        /* */
+    gap: 10px;      /* */
+    flex-wrap: wrap;        /* */
+    background-color: #ff9800;      /* */
+    padding: 10px;      /* */
+    border-radius: 8px;         /* */
+    margin-bottom: 20px;        /* */
 }
+/* */
 
 nav label {
-    font-weight: 600;
-    color: #fff;
+    font-weight: 600;       /* */
+    color: #fff;        /* */
 }
+/* */
 
 nav input[type="text"], nav input[type="number"] {
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    width: 180px;
+    padding: 8px 12px;      /* */
+    border-radius: 6px;     /* */
+    border: 1px solid #ccc;     /* */
+    width: 180px;       /* */
 }
+/* */
 
 nav button {
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    background-color: #2196f3;
-    color: white;
+    padding: 8px 16px;      /* */
+    border-radius: 6px;     /* */
+    border: none;       /* */
+    font-weight: 600;       /* */
+    cursor: pointer;        /* */
+    transition: all 0.2s;       /* */
+    background-color: #2196f3;      /* */
+    color: white;       /* */
 }
+/* */
 
 nav button:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+    transform: scale(1.05);     /* */
+    opacity: 0.9;       /* */
 }
+/* */
 
 /* Cart count badge */
 #cart-count {
-    background-color: #4caf50;
-    color: #fff;
-    border-radius: 50%;
-    padding: 2px 8px;
-    font-size: 14px;
-    font-weight: bold;
-    vertical-align: middle;
+    background-color: #4caf50;      /* */
+    color: #fff;        /* */
+    border-radius: 50%;     /* */
+    padding: 2px 8px;       /* */
+    font-size: 14px;        /* */
+    font-weight: bold;      /* */
+    vertical-align: middle;     /* */
 }
+/* */
 
 /* ------------------------- Container Grid ------------------------- */
 #container-data {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
+    display: grid;      /* */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));    /* */
+    gap: 20px;      /* */
+    margin-top: 20px;       /* */
 }
+/* */
 
 /* ------------------------- Card Styling ------------------------- */
 .card {
-    background-color: rgba(255,255,255,0.95);
-    border-radius: 12px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: rgba(255,255,255,0.95);       /* */
+    border-radius: 12px;        /* */
+    padding: 15px;      /* */
+    display: flex;      /* */
+    flex-direction: column;     /* */
+    justify-content: space-between;     /* */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);     /* */
+    transition: transform 0.2s, box-shadow 0.2s;        /* */
 }
+/* */
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transform: translateY(-5px);        /* */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);        /* */
 }
+/* */
 
 .card h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    text-align: center;
-    color: #2c3e50;
+    font-size: 18px;        /* */
+    margin-bottom: 10px;        /* */
+    text-align: center;     /* */
+    color: #2c3e50;     /* */
 }
+/* */
 
 .card p {
-    font-size: 16px;
-    margin-bottom: 15px;
-    text-align: center;
-    font-weight: 600;
-    color: #e74c3c;
+    font-size: 16px;        /* */
+    margin-bottom: 15px;        /* */
+    text-align: center;     /* */
+    font-weight: 600;       /* */
+    color: #e74c3c;     /* */
 }
+/* */
 
 /* ------------------------- Card Buttons ------------------------- */
 .card button {
-    padding: 6px 10px;
-    margin: 3px;
-    font-size: 14px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: transform 0.2s, opacity 0.2s;
+    padding: 6px 10px;      /* */
+    margin: 3px;        /* */
+    font-size: 14px;        /* */
+    border-radius: 6px;     /* */
+    border: none;       /* */
+    cursor: pointer;        /* */
+    font-weight: 600;       /* */
+    transition: transform 0.2s, opacity 0.2s;       /* */
 }
+/* */
 
 .card button:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+    transform: scale(1.05);     /* */
+    opacity: 0.9;       /* */
 }
+/* */
 
 /* Assign colors by purpose */
 .card button:first-of-type {
-    background-color: #ff9800;
-    color: #fff;
+    background-color: #ff9800;      /* */
+    color: #fff;        /* */
 }
+/* */
 
 .card button:nth-of-type(2) {
-    background-color: #2196f3;
-    color: #fff;
+    background-color: #2196f3;      /* */
+    color: #fff;        /* */
 }
+/* */
 
 .card button:last-of-type {
-    background-color: #f44336;
-    color: #fff;
+    background-color: #f44336;      /* */
+    color: #fff;        /* */
 }
+/* */
 
 /* ------------------------- Responsive ------------------------- */
 @media (max-width: 600px) {
     nav input[type="text"], nav input[type="number"] {
-        width: 100%;
-        margin-bottom: 8px;
+        width: 100%;        /* */
+        margin-bottom: 8px;     /* */
     }
 
     #container-data {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));       /* */
     }
 
     h1 {
-        font-size: 36px;
-        line-height: 50px;
+        font-size: 36px;        /* */
+        line-height: 50px;      /* */
     }
 }
